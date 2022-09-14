@@ -74,7 +74,8 @@ include 'settings.php';
 <html lang="en">
 		<head>
 				<meta charset="utf-8">
-				<title>Sales Inquery || [Your Domain]</title>
+				<title>Thanks for contacting || <?php echo $domain; ?></title>
+        <meta name=”robots” content=”noindex”>
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/bootstrap-icons.css">
@@ -118,9 +119,11 @@ include 'settings.php';
 														<br/>
 													</div>
 											</div>
-                      <div class="row d-md-flex text-center justify-content-center text-primary action-icons">
-                        Built with
-                      </div>
+                      <?php if ($includeCredit == 'yes') { ?>
+                        <div class="row d-md-flex text-center justify-content-center credit small text-muted">
+                          <p>Built with <a href="https://github.com/EncodeDotHost/domain-for-sale" target="_blank">Domain For Sale Landing Page</a></p>
+                        </div>
+                      <?php } ?>
 									</section>
 							</div>
 					</div>

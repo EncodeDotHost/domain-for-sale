@@ -32,7 +32,7 @@ include 'settings.php';
                               <a class="btn text-white bg-green btn-lg">Buy now<?php if( !empty($salePrice)){ echo " for {$currencySymbol}{$salePrice}";} ?></a>
                               </label>
                           </div>
-                        <?php if ($publicDetails == 'Yes') { ?>
+                        <?php if ($publicDetails == 'yes') { ?>
                           <div class="row d-md-flex text-center justify-content-center text-primary action-icons">
                               <div class="col-sm-4">
                                   <p><em class="bi bi-telephone-plus"></em></p>
@@ -106,9 +106,11 @@ include 'settings.php';
                                         </form>
                                     </div>
                                 </div>
+                              <?php if ($includeCredit == 'yes') { ?>
                                 <div class="row d-md-flex text-center justify-content-center credit small text-muted">
-                                  <p>Built with <a href="https://github.com/EncodeDotHost/domain-for-sale" target="_blank">Domain For Sale Landing Page</a> by <a href="https://encode.host/" target="_blank">EncodeDotHost</a></p>
+                                  <p>Built with <a href="https://github.com/EncodeDotHost/domain-for-sale" target="_blank">Domain For Sale Landing Page</a></p>
                                 </div>
+                              <?php } ?>
                             </div>
                         </section>
                     </div>
