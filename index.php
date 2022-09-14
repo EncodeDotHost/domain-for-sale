@@ -1,13 +1,15 @@
+<?php
+include 'settings.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <title>Sales Inquery || [Your Domain]</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-        <link href="https://fonts.googleapis.com/css?family=Mukta+Mahee:300,700" rel="stylesheet">
-        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-icons.css">
         <link rel="stylesheet" href="css/style.css" />
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
@@ -20,20 +22,20 @@
                     <div class="col-sm-6 bg-faded text-center col-fixed">
                         <div class="vMiddle">
                           <h1 class="pt-4 h2">
-                              <span class="text-green">[Your Domain].com</span>
-                              <small>available for sale</small>
+                              <span class="text-green"><?php echo $domain; ?></span>
+                              <small>is available for sale</small>
                           </h1>
                           <p class="mt-4">
-                              For instantly purchase. Please make an order.
+                              For instantly purchase. Please make an enquiry.
                           </p>
                           <div class="pt-5">
                               <label for="name">
-                              <a class="btn text-white bg-green btn-lg">Buy now for $4999</a>
+                              <a class="btn text-white bg-green btn-lg">Buy now<?php if( !empty($salePrice)){ echo " for {$currencySymbol}{$salePrice}";} ?></a>
                               </label>
                           </div>
                           <div class="row d-md-flex text-center justify-content-center text-primary action-icons">
                               <div class="col-sm-4">
-                                  <p><em class="ion-ios-telephone-outline icon-md"></em></p>
+                                  <p><em class="bi bi-telephone-plus"></em></p>
                                   <p class="lead"><a href="tel:+[Your Phone]">+[Your Phone]</a></p>
                               </div>
                               <div class="col-sm-4">
@@ -88,16 +90,18 @@
                                                   name="price"
                                                   class="form-control"
                                                   min="0"
-                                                  placeholder="Offer price in USD? (Required)">
+                                                  placeholder="Offer price? (Required)">
                                             </div>
                                             <div class="form-group">
                                                 <textarea name="comments" class="form-control" placeholder="Message (optional)"></textarea>
                                             </div>
+
+
                                             <div class="form-group">
                                               <div id="recaptcha" class="g-recaptcha" data-sitekey="6Lc_sf8aAAAAAFk3KIcYvqcIoo1HeCOZu4faK3DA" data-callback="onSubmit" data-size="invisible"></div>
                                             </div>
 
-                                            <button type="submit" class="btn text-white btn-lg bg-primary btn-block">Make an offer</button>
+                                            <button type="submit" class="btn text-white btn-lg bg-primary btn-block" name="send">Make an offer</button>
                                         </form>
                                     </div>
                                 </div>
@@ -127,8 +131,8 @@
                 },
                 phone: {
                   required: true,
-                  minlength:10,
-                  maxlength:10
+                  minlength:11,
+                  maxlength:11
                 },
                 price: "required",
                 comments: {
