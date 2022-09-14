@@ -6,6 +6,7 @@ html,
 body {
     width: 100%;
     height: 100%;
+    overflow-x: hidden;
 }
 body{
     font-family: 'Mukta Mahee', sans-serif;
@@ -192,9 +193,20 @@ textarea.form-control {
 label{
   margin: 0;
 }
+@media (min-width:576px) {
+  .action-icons {
+    position: absolute;
+    bottom: 4rem;
+  }
+}
 .action-icons {
+  margin-top: 1rem;
+  width: 100%;
+  left: 0;
+}
+.credit {
   position: absolute;
-  bottom: 4rem;
+  bottom: 1rem;
   width: 100%;
   left: 0;
 }

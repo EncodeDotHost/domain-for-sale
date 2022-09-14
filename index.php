@@ -6,7 +6,7 @@ include 'settings.php';
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Sales Inquery || [Your Domain]</title>
+        <title>Domain for Sale || <?php echo $domain; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/bootstrap-icons.css">
@@ -15,7 +15,6 @@ include 'settings.php';
 
     </head>
     <body>
-
         <section class="bg-alt hero p-0">
             <div class="container-fluid">
                 <div class="row">
@@ -33,16 +32,18 @@ include 'settings.php';
                               <a class="btn text-white bg-green btn-lg">Buy now<?php if( !empty($salePrice)){ echo " for {$currencySymbol}{$salePrice}";} ?></a>
                               </label>
                           </div>
+                        <?php if ($publicDetails == 'Yes') { ?>
                           <div class="row d-md-flex text-center justify-content-center text-primary action-icons">
                               <div class="col-sm-4">
                                   <p><em class="bi bi-telephone-plus"></em></p>
-                                  <p class="lead"><a href="tel:+[Your Phone]">+[Your Phone]</a></p>
+                                  <p class="lead"><a href="tel:<?php echo $phone; ?>"><?php echo $phone; ?></a></p>
                               </div>
                               <div class="col-sm-4">
-                                  <p><em class="ion-ios-chatbubble-outline icon-md"></em></p>
-                                  <p class="lead"><a href="mailto:email@[Your Domain].com">email@[Your Domain].com</a></p>
+                                  <p><i class="bi bi-chat-left-quote"></i></p>
+                                  <p class="lead"><a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a></p>
                               </div>
                           </div>
+                        <?php } ?>
                       </div>
                     </div>
                     <div class="col-sm-6 offset-sm-6">
@@ -98,12 +99,15 @@ include 'settings.php';
 
 
                                             <div class="form-group">
-                                              <div id="recaptcha" class="g-recaptcha" data-sitekey="6Lc_sf8aAAAAAFk3KIcYvqcIoo1HeCOZu4faK3DA" data-callback="onSubmit" data-size="invisible"></div>
+                                              <div id="recaptcha" class="g-recaptcha" data-sitekey="<?php echo $recaptchaSiteKey; ?>"></div>
                                             </div>
 
                                             <button type="submit" class="btn text-white btn-lg bg-primary btn-block" name="send">Make an offer</button>
                                         </form>
                                     </div>
+                                </div>
+                                <div class="row d-md-flex text-center justify-content-center credit small text-muted">
+                                  <p>Built with <a href="https://github.com/EncodeDotHost/domain-for-sale" target="_blank">Domain For Sale Landing Page</a> by <a href="https://encode.host/" target="_blank">EncodeDotHost</a></p>
                                 </div>
                             </div>
                         </section>
