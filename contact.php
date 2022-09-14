@@ -59,7 +59,7 @@ include 'settings.php';
     } else{ 
       $response = array(
           "status" => "alert-danger",
-          "message" => "Plese check on the reCAPTCHA box."
+          "message" => "<span>Please check on the reCAPTCHA box.</span>"
       );
     } 
     }  else{ 
@@ -115,7 +115,7 @@ include 'settings.php';
 									<section class="bg-alt">
 											<div class="row height-100">
 													<div class="col-sm-8 offset-sm-2 mt-2">
-														<h1 class="pt-4 h2"><span class="text-green"><?php echo $domain; ?></span></h1>
+														<h1 class="pt-4 h2"><span class="text-green"><a href="http://<?php echo $domain;?>"><?php echo $domain;?></a></span></h1>
 														<br/>
 													</div>
 											</div>
