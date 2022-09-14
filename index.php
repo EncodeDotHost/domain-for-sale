@@ -25,7 +25,7 @@ include 'settings.php';
                               <small>is available for sale</small>
                           </h1>
                           <p class="mt-4">
-                              For instantly purchase. Please make an enquiry.
+                              To instantly purchase. Please make an enquiry.
                           </p>
                           <div class="pt-5">
                               <label for="name">
