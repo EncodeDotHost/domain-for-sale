@@ -20,7 +20,7 @@ You can clone folder & host on you server. But you need to change certain elemen
 
 ## Credit
 
-- Orginal https://github.com/saroz/domain-for-sale
+- Original https://github.com/saroz/domain-for-sale
 - This version by [EncodeDotHost](https://encode.host/) / [Get your new domain](https://encode.host/cart.php?a=add&domain=register)
 
 ## License
