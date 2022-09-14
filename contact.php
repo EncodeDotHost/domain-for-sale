@@ -15,13 +15,13 @@ include 'settings.php';
 		$comments = $_POST['comments']; // required
 
     // Form validation
-    if(!empty($name) && !empty($email_from) && !empty($price) && !empty($comments)){
+    if(!empty($name) && !empty($email_from) && !empty($price) && !empty($telephone)){
       // reCAPTCHA validation
-      if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response'])) {
+      if(isset($_POST['g-recaptcha-response'])) {
 
         // reCAPTCHA response verification
         $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$recaptchaSecretKey.'&response='.$_POST['g-recaptcha-response']);
-
+        echo $verifyResponse;
         // Decode JSON data
         $response = json_decode($verifyResponse);
         if($response->success){
@@ -45,26 +45,30 @@ include 'settings.php';
                     'X-Mailer: PHP/' . phpversion();
             @mail($email_to, $email_subject, $email_message, $headers);
 
-            echo "Email sent";
-          } else {
             $response = array(
-                "status" => "alert-danger",
-                "message" => "reCaptcha Robot verification failed, please try again."
-            );
-        } else{ 
-          $response = array(
-              "status" => "alert-danger",
-              "message" => "Plese check on the reCAPTCHA box."
+              "status" => "alert-success",
+              "message" => "<span>Your mail has been successfully sent.</span><br/>
+                            <span>Thank you for offer. We will be in contact as soon as possible.</span>"
           );
-      } 
+          } else {
+              $response = array(
+                  "status" => "alert-danger",
+                  "message" => "Robot verification failed, please try again."
+              );
+          }       
+    } else{ 
+      $response = array(
+          "status" => "alert-danger",
+          "message" => "Plese check on the reCAPTCHA box."
+      );
+    } 
     }  else{ 
-        $response = array(
-            "status" => "alert-danger",
-            "message" => "All the fields are required."
-        );
-    }
-  }  
-}
+    $response = array(
+      "status" => "alert-danger",
+      "message" => "All the fields are required."
+    );
+  }
+}  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -90,31 +94,33 @@ include 'settings.php';
                         </div>
                       </div>
                       <?php }?>
-											<span>Thank you for offer. We will be in contact as soon as possible.</span>
+											
 										</h1>
-										<div class="row d-md-flex text-center justify-content-center text-primary action-icons">
-											<div class="col-sm-4">
-												<p><em class="ion-ios-telephone-outline icon-md"></em></p>
-												<p class="lead"><a href="tel:+[Your Phone]">+[Your Phone]</a></p>
-											</div>
-											<div class="col-sm-4">
-												<p><em class="ion-ios-chatbubble-outline icon-md"></em></p>
-												<p class="lead"><a href="mailto:hello@example.com">email@[Your Domain].com</a></p>
-											</div>
-									</div>
+										<?php if ($publicDetails == 'Yes') { ?>
+                          <div class="row d-md-flex text-center justify-content-center text-primary action-icons">
+                              <div class="col-sm-4">
+                                  <p><em class="bi bi-telephone-plus"></em></p>
+                                  <p class="lead"><a href="tel:<?php echo $phone; ?>"><?php echo $phone; ?></a></p>
+                              </div>
+                              <div class="col-sm-4">
+                                  <p><i class="bi bi-chat-left-quote"></i></p>
+                                  <p class="lead"><a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a></p>
+                              </div>
+                          </div>
+                    <?php } ?>
 								</div>
 							</div>
 							<div class="col-sm-6 offset-sm-6 px-0">
 									<section class="bg-alt">
 											<div class="row height-100">
 													<div class="col-sm-8 offset-sm-2 mt-2">
-														<h1 class="pt-4 h2"><span class="text-green">Saroj K. Poddar</span></h1>
-														<span class="text-muted">Kathmandu, Nepal</span>
-														<p><span>Web Strategist, Front-end Developer & UX/ UI Designer</span></p>
+														<h1 class="pt-4 h2"><span class="text-green"><?php echo $domain; ?></span></h1>
 														<br/>
-														<a target="_blank" rel="nofollow" href="https://sarozpoddar.com.np">sarozpoddar.com.np</a>
 													</div>
 											</div>
+                      <div class="row d-md-flex text-center justify-content-center text-primary action-icons">
+                        Built with
+                      </div>
 									</section>
 							</div>
 					</div>
@@ -122,4 +128,3 @@ include 'settings.php';
 			</section>
 		</body>
 </html>
-<?php } ?>
