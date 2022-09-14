@@ -1,10 +1,11 @@
 <?php
+include 'settings.php';
 
-	if (isset($_POST['email'])) {
+	if (isset($_POST['send'])) {
 
 		// EDIT THE 2 LINES BELOW AS REQUIRED
-		$email_to = "hey@sarozpoddar.com.np";
-		$email_subject = "My offer for [Your Domain]";
+		$email_to = $email;
+		$email_subject = "New offer for {$domain}";
 
 
 		$name = $_POST['name']; // required
@@ -13,26 +14,57 @@
 		$price = $_POST['price']; // not required
 		$comments = $_POST['comments']; // required
 
+    // Form validation
+    if(!empty($name) && !empty($email_from) && !empty($price) && !empty($comments)){
+      // reCAPTCHA validation
+      if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response'])) {
 
-		$email_message = "Form details below.\n\n";
+        // reCAPTCHA response verification
+        $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$recaptchaSecretKey.'&response='.$_POST['g-recaptcha-response']);
 
-		function clean_string($string) {
-				$bad = array("content-type", "bcc:", "to:", "cc:", "href");
-				return str_replace($bad, "", $string);
-		}
+        // Decode JSON data
+        $response = json_decode($verifyResponse);
+        if($response->success){
 
-		$email_message .= "Name: " . clean_string($name) . "\n";
-		$email_message .= "Email: " . clean_string($email_from) . "\n";
-		$email_message .= "Telephone: " . clean_string($telephone) . "\n";
-		$email_message .= "Price($): " . clean_string($price) . "\n";
-		$email_message .= "Comments: " . clean_string($comments) . "\n";
+            $email_message = "Form details below.\n\n";
 
-		// create email headers
-		$headers = 'From: ' . $email_from . "\r\n" .
-						'Reply-To: ' . $email_from . "\r\n" .
-						'X-Mailer: PHP/' . phpversion();
-		@mail($email_to, $email_subject, $email_message, $headers);
+            function clean_string($string) {
+                $bad = array("content-type", "bcc:", "to:", "cc:", "href");
+                return str_replace($bad, "", $string);
+            }
 
+            $email_message .= "Name: " . clean_string($name) . "\n";
+            $email_message .= "Email: " . clean_string($email_from) . "\n";
+            $email_message .= "Telephone: " . clean_string($telephone) . "\n";
+            $email_message .= "Price($): " . clean_string($price) . "\n";
+            $email_message .= "Comments: " . clean_string($comments) . "\n";
+
+            // create email headers
+            $headers = 'From: ' . $email_from . "\r\n" .
+                    'Reply-To: ' . $email_from . "\r\n" .
+                    'X-Mailer: PHP/' . phpversion();
+            @mail($email_to, $email_subject, $email_message, $headers);
+
+            echo "Email sent";
+          } else {
+            $response = array(
+                "status" => "alert-danger",
+                "message" => "reCaptcha Robot verification failed, please try again."
+            );
+        } else{ 
+          $response = array(
+              "status" => "alert-danger",
+              "message" => "Plese check on the reCAPTCHA box."
+          );
+      } 
+    }  else{ 
+        $response = array(
+            "status" => "alert-danger",
+            "message" => "All the fields are required."
+        );
+    }
+  }  
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,11 +72,9 @@
 				<meta charset="utf-8">
 				<title>Sales Inquery || [Your Domain]</title>
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
-				<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-				<link href="https://fonts.googleapis.com/css?family=Mukta+Mahee:300,700" rel="stylesheet">
-				<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
-				<link rel="stylesheet" href="css/style.css" />
+				<link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-icons.css">
+        <link rel="stylesheet" href="css/style.css" />
 		</head>
 		<body>
 			<section class="bg-alt hero p-0">
@@ -53,7 +83,14 @@
 							<div class="bg-faded col-sm-6 text-center col-fixed">
 									<div class="vMiddle">
 										<h1 class="pt-4 h2">
-											<span>Thak you for offer, I will contact as soon as possible. Cheers !!!</span>
+                    <?php if(!empty($response)) {?>
+                      <div class="form-group col-12 text-center">
+                        <div class="alert text-center <?php echo $response['status']; ?>">
+                          <?php echo $response['message']; ?>
+                        </div>
+                      </div>
+                      <?php }?>
+											<span>Thank you for offer. We will be in contact as soon as possible.</span>
 										</h1>
 										<div class="row d-md-flex text-center justify-content-center text-primary action-icons">
 											<div class="col-sm-4">
